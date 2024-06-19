@@ -11,6 +11,9 @@ public class Program
         // options for controllers with views. ControllersWithViews means that the application will use views
         // for its responses.
         builder.Services.AddControllersWithViews();
+
+        // Configure Kestrel to listen on both HTTP and HTTPS
+        builder.WebHost.UseUrls("http://localhost:5000", "https://localhost:5001");
         
         // Build the application. This will create an instance of the application based on the configuration that was
         // created by the builder.
