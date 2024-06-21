@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using SpendSmart.Models;
 
 namespace SpendSmart.Controllers;
@@ -24,6 +25,11 @@ public class HomeController : Controller
     public IActionResult CreateEditExpense()
     {
         return View();
+    }
+
+    public IActionResult CreateEditExpenseForm(Expense model)
+    {
+        return RedirectToAction("Index");
     }
 
     public IActionResult Privacy()
