@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using SpendSmart.Data;
+
 namespace SpendSmart;
 
 public class Program
@@ -11,6 +14,8 @@ public class Program
         // options for controllers with views. ControllersWithViews means that the application will use views
         // for its responses.
         builder.Services.AddControllersWithViews();
+        
+        builder.Services.AddDbContext<SpendSmartDbContext>(options => options.UseInMemoryDatabase("SpendSmartDb"));
 
         // Configure Kestrel to listen on both HTTP and HTTPS
         builder.WebHost.UseUrls("http://localhost:5000", "https://localhost:5001");
