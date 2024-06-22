@@ -24,20 +24,53 @@ public class HomeController : Controller
     }
     public IActionResult Expenses()
     {
+        var allExpenses = _context.Expenses.ToList();
+
+        var totalExpenses = allExpenses.Sum(expense => expense.Value);
+
+        ViewBag.Expenses = totalExpenses;
+
+        return View(allExpenses);
+    }
+    public IActionResult CreateEditExpense(int? id)
+    {
+        if (id != null)
+        {
+            //edit -> load an expense by id
+            var expenseInDb = _context.Expenses.SingleOrDefault(expense => expense.Id == id);
+            return View(expenseInDb);
+        }
+        
         return View();
     }
-    public IActionResult CreateEditExpense()
+
+    public IActionResult DeleteExpense(int id)
     {
-        return View();
+        var expenseInDb = _context.Expenses.SingleOrDefault(expense => expense.Id == id);
+
+        _context.Expenses.Remove(expenseInDb);
+
+        _context.SaveChanges();
+
+        return RedirectToAction("Expenses");
     }
 
     public IActionResult CreateEditExpenseForm(Expense model)
     {
-        _context.Expenses.Add(model);
+        if (model.Id == 0)
+        {
+            // create
+            _context.Expenses.Add(model);
+        }
+        else
+        {
+            //Editing
+            _context.Expenses.Update(model);
+        }
 
         _context.SaveChanges();
         
-        return RedirectToAction("Index");
+        return RedirectToAction("Expenses");
     }
 
     public IActionResult Privacy()
